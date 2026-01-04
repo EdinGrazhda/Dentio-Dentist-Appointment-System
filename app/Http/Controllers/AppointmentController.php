@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
+use App\Models\Dentist;
+use App\Models\Services;
+use App\Enums\AppointmentStatus;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
@@ -11,7 +15,11 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        //
+        $appointments = Appointment::with(['dentist', 'service'])
+            ->latest()
+            ->paginate(10);
+        
+        return view('Admin.appointments.index', compact('appointments'));
     }
 
     /**
@@ -19,7 +27,11 @@ class AppointmentController extends Controller
      */
     public function create()
     {
-        //
+        $dentists = Dentist::all();
+        $services = Services::all();
+        $statuses = AppointmentStatus::options();
+        
+        return view('Admin.appointments.create', compact('dentists', 'services', 'statuses'));
     }
 
     /**
@@ -27,7 +39,18 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'dentist_id' => 'required|exists:dentists,id',
+            'service_id' => 'required|exists:services,id',
+            'patient_name' => 'required|string|max:255',
+            'appointment_date' => 'required|date|after:now',
+            'status' => 'required|in:pending,confirmed,canceled',
+        ]);
+
+        Appointment::create($validated);
+
+        return redirect()->route('appointments.index')
+            ->with('success', 'Appointment created successfully.');
     }
 
     /**
@@ -41,24 +64,42 @@ class AppointmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Appointment $appointment)
     {
-        //
+        $dentists = Dentist::all();
+        $services = Services::all();
+        $statuses = AppointmentStatus::options();
+        
+        return view('Admin.appointments.edit', compact('appointment', 'dentists', 'services', 'statuses'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Appointment $appointment)
     {
-        //
+        $validated = $request->validate([
+            'dentist_id' => 'required|exists:dentists,id',
+            'service_id' => 'required|exists:services,id',
+            'patient_name' => 'required|string|max:255',
+            'appointment_date' => 'required|date',
+            'status' => 'required|in:pending,confirmed,canceled',
+        ]);
+
+        $appointment->update($validated);
+
+        return redirect()->route('appointments.index')
+            ->with('success', 'Appointment updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Appointment $appointment)
     {
-        //
+        $appointment->delete();
+
+        return redirect()->route('appointments.index')
+            ->with('success', 'Appointment deleted successfully.');
     }
 }

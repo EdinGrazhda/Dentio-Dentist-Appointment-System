@@ -26,3 +26,12 @@ Route::apiResource('services', App\Http\Controllers\API\ServiceController::class
     'update' => 'api.services.update',
     'destroy' => 'api.services.destroy',
 ]);
+
+// Appointment API Routes
+Route::apiResource('appointments', App\Http\Controllers\API\AppointmentController::class)->names([
+    'index' => 'api.appointments.index',
+    'store' => 'api.appointments.store',
+    'show' => 'api.appointments.show',
+    'update' => 'api.appointments.update',
+    'destroy' => 'api.appointments.destroy',
+]);

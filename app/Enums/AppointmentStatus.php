@@ -57,9 +57,11 @@ enum AppointmentStatus: string
      */
     public static function options(): array
     {
-        return array_map(
-            fn ($status) => ['value' => $status->value, 'label' => $status->label()],
-            self::cases()
-        );
+        $options = [];
+        foreach (self::cases() as $status) {
+            $options[$status->value] = $status->label();
+        }
+
+        return $options;
     }
 }

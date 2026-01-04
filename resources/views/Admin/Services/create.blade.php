@@ -55,6 +55,16 @@
                         placeholder="99.99"
                     />
 
+                    <!-- Duration Field -->
+                    <flux:input
+                        name="duration"
+                        label="Duration (in minutes)"
+                        :value="old('duration')"
+                        type="number"
+                        min="1"
+                        placeholder="e.g., 30 for 30 minutes, 120 for 2 hours"
+                    />
+
                     <!-- Action Buttons -->
                     <flux:separator />
                     <div class="flex items-center justify-end gap-3">

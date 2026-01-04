@@ -19,6 +19,8 @@
                 <flux:navlist.group :heading="__('Management Platform')" class="grid">
                     <flux:navlist.item icon="user-plus" :href="route('dentists.index')" :current="request()->routeIs('dentists.*')" wire:navigate>{{ __('Dentists') }}</flux:navlist.item>
                     <flux:navlist.item icon="clipboard" :href="route('services.index')" :current="request()->routeIs('services.*')" wire:navigate>{{ __('Services') }}</flux:navlist.item>
+                    <flux:navlist.item icon="calendar" :href="route('appointments.index')" :current="request()->routeIs('appointments.*')" wire:navigate>{{ __('Appointments') }}</flux:navlist.item>
+                    <flux:navlist.item icon="calendar-days" :href="route('calendar.index')" :current="request()->routeIs('calendar.*')" wire:navigate>{{ __('Calendar') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 

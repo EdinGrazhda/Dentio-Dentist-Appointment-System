@@ -70,6 +70,7 @@ class ServiceController extends Controller
             'service_name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
+            'duration' => 'nullable|integer|min:1',
         ]);
 
         $service->update($validated);

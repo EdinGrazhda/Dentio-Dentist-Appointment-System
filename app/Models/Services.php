@@ -10,14 +10,15 @@ class Services extends Model
         'service_name',
         'description',
         'price',
+        'duration',
     ];
 
 
     public function appointments()
     {
-        return $this->hasMany(Appointments::class);
+        return $this->hasMany(Appointment::class);
     }
 
-    
+
 
 }

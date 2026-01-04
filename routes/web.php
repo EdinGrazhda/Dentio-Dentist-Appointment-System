@@ -44,3 +44,13 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::resource('services', App\Http\Controllers\ServiceController::class);
 });
+
+// Appointment CRUD Routes
+Route::middleware(['auth'])->group(function () {
+    Route::resource('appointments', App\Http\Controllers\AppointmentController::class);
+});
+
+// Calendar Route
+Route::middleware(['auth'])->group(function () {
+    Route::get('calendar', App\Livewire\CalendarView::class)->name('calendar.index');
+});

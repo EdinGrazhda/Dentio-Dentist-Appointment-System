@@ -33,6 +33,7 @@
                                 <th class="px-6 py-4 text-left text-xs font-semibold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">Service Name</th>
                                 <th class="px-6 py-4 text-left text-xs font-semibold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">Description</th>
                                 <th class="px-6 py-4 text-left text-xs font-semibold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">Price</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">Duration</th>
                                 <th class="px-6 py-4 text-right text-xs font-semibold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
@@ -53,6 +54,22 @@
                                         <flux:badge color="zinc" style="background-color: #E3F2FD !important; color: #4988C4 !important; border: 1.5px solid #4988C4 !important;">
                                             ${{ number_format($service->price, 2) }}
                                         </flux:badge>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-zinc-700 dark:text-zinc-300">
+                                            @if($service->duration)
+                                                @if($service->duration >= 60)
+                                                    {{ floor($service->duration / 60) }}h 
+                                                    @if($service->duration % 60 > 0)
+                                                        {{ $service->duration % 60 }}m
+                                                    @endif
+                                                @else
+                                                    {{ $service->duration }}m
+                                                @endif
+                                            @else
+                                                <span class="text-zinc-400 dark:text-zinc-600">-</span>
+                                            @endif
+                                        </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right">
                                         <div class="flex items-center justify-end gap-2">
@@ -116,9 +133,26 @@
 
                             <!-- Description -->
                             <div class="mb-4 pb-4 border-b border-zinc-200 dark:border-zinc-800">
-                                <p class="text-sm text-zinc-600 dark:text-zinc-400">
+                                <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-3">
                                     {{ $service->description }}
                                 </p>
+                                @if($service->duration)
+                                    <div class="flex items-center gap-2 text-sm text-zinc-700 dark:text-zinc-300">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <span>
+                                            @if($service->duration >= 60)
+                                                {{ floor($service->duration / 60) }}h 
+                                                @if($service->duration % 60 > 0)
+                                                    {{ $service->duration % 60 }}m
+                                                @endif
+                                            @else
+                                                {{ $service->duration }} minutes
+                                            @endif
+                                        </span>
+                                    </div>
+                                @endif
                             </div>
 
                             <!-- Actions -->
