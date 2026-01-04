@@ -17,3 +17,12 @@ Route::apiResource('dentists', DentistController::class)->names([
     'update' => 'api.dentists.update',
     'destroy' => 'api.dentists.destroy',
 ]);
+
+// Service API Routes
+Route::apiResource('services', App\Http\Controllers\API\ServiceController::class)->names([
+    'index' => 'api.services.index',
+    'store' => 'api.services.store',
+    'show' => 'api.services.show',
+    'update' => 'api.services.update',
+    'destroy' => 'api.services.destroy',
+]);

@@ -39,3 +39,8 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::resource('dentists', DentistController::class);
 });
+
+// Service CRUD Routes
+Route::middleware(['auth'])->group(function () {
+    Route::resource('services', App\Http\Controllers\ServiceController::class);
+});

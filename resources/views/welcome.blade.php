@@ -18,12 +18,9 @@
         
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     </head>
-    <body class="antialiased bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 transition-colors duration-300" 
-          x-data="{ darkMode: false, mobileMenuOpen: false }" 
-          x-init="darkMode = localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)" 
-          :class="{ 'dark': darkMode }"
-          style="font-family: 'Inter', sans-serif;">
-          style="font-family: 'Inter', sans-serif;">
+        <body class="antialiased bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 transition-colors duration-300" 
+            x-data="{ mobileMenuOpen: false }"
+            style="font-family: 'Inter', sans-serif;">
         
         <!-- Navigation -->
         <nav class="fixed top-0 w-full bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-200 dark:border-zinc-800 z-50 transition-all duration-300">

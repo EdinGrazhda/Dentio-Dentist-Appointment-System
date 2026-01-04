@@ -4,7 +4,7 @@
             <!-- Header -->
             <div class="mb-6">
                 <div class="flex items-center gap-3 mb-2">
-                    <flux:button :href="route('dentists.index')" icon="arrow-left" variant="ghost" size="sm" square />
+                    <flux:button :href="route('dentists.index')" icon="arrow-left" variant="ghost" size="sm" square wire:navigate />
                     <flux:heading size="xl">Add New Dentist</flux:heading>
                 </div>
                 <flux:subheading class="ml-11">Fill in the information below to add a new dental professional</flux:subheading>
@@ -79,7 +79,7 @@
                     <!-- Action Buttons -->
                     <flux:separator />
                     <div class="flex items-center justify-end gap-3">
-                        <flux:button :href="route('dentists.index')" variant="ghost">
+                        <flux:button :href="route('dentists.index')" variant="ghost" wire:navigate>
                             Cancel
                         </flux:button>
                         <flux:button type="submit" variant="primary" icon="check" class="bg-gradient-to-r from-[#4988C4] to-[#6BA3D8]">

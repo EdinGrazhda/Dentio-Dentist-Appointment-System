@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         @include('partials.head')
     </head>
@@ -16,8 +16,9 @@
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
                 </flux:navlist.group>
 
-                <flux:navlist.group :heading="__('Dentist Platform')" class="grid">
-                    <flux:navlist.item icon="user-plus" :href="route('dentists.index')" :current="request()->routeIs('dentists.index')">{{ __('Dentists') }}</flux:navlist.item>
+                <flux:navlist.group :heading="__('Management Platform')" class="grid">
+                    <flux:navlist.item icon="user-plus" :href="route('dentists.index')" :current="request()->routeIs('dentists.*')" wire:navigate>{{ __('Dentists') }}</flux:navlist.item>
+                    <flux:navlist.item icon="clipboard" :href="route('services.index')" :current="request()->routeIs('services.*')" wire:navigate>{{ __('Services') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 
