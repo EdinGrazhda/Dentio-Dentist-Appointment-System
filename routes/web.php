@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DentistController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -32,4 +33,9 @@ Route::middleware(['auth'])->group(function () {
             ),
         )
         ->name('two-factor.show');
+});
+
+// Dentist CRUD Routes
+Route::middleware(['auth'])->group(function () {
+    Route::resource('dentists', DentistController::class);
 });

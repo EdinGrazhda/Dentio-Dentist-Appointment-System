@@ -65,4 +65,30 @@
             <flux:link :href="route('login')" wire:navigate>{{ __('Log in') }}</flux:link>
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        // Auto-refresh CSRF token every 30 minutes to prevent 419 errors
+        setInterval(function() {
+            fetch('{{ route('login') }}', {
+                method: 'GET',
+                credentials: 'same-origin'
+            })
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newToken = doc.querySelector('meta[name="csrf-token"]')?.content;
+                
+                if (newToken) {
+                    // Update meta tag
+                    document.querySelector('meta[name="csrf-token"]')?.setAttribute('content', newToken);
+                    // Update form token
+                    document.querySelector('input[name="_token"]')?.setAttribute('value', newToken);
+                }
+            })
+            .catch(error => console.error('CSRF refresh error:', error));
+        }, 30 * 60 * 1000); // 30 minutes
+    </script>
+    @endpush
 </x-layouts.auth>
