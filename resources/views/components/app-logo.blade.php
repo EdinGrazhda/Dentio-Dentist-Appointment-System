@@ -1,6 +1,6 @@
-<div class="flex aspect-square size-8 items-center justify-center rounded-md bg-accent-content text-accent-foreground">
-    <x-app-logo-icon class="size-5 fill-current text-white dark:text-black" />
+<div class="flex aspect-square size-16 -m-4 sm:size-18 md:size-20 items-center justify-center rounded-md">
+    <x-app-logo-icon class="size-14 sm:size-16 md:size-18" />
 </div>
-<div class="ms-1 grid flex-1 text-start text-sm">
-    <span class="mb-0.5 truncate leading-tight font-semibold">Laravel Starter Kit</span>
+<div class="ms-2 grid flex-1 text-start text-base sm:text-lg">
+    <span class="mb-0.5 truncate leading-tight font-semibold">Dentio</span>
 </div>
