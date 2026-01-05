@@ -27,8 +27,8 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16 lg:h-20">
                     <!-- Logo -->
-                    <a href="/" class="text-2xl lg:text-3xl font-bold tracking-tight" style="font-family: 'Space Grotesk', sans-serif;">
-                        <span class="bg-gradient-to-r from-[#4988C4] to-[#6BA3D8] bg-clip-text text-transparent">Dentio</span>
+                    <a href="/" class="flex items-center gap-2 lg:gap-3">
+                        <img src="{{ asset('images/Dentio.png') }}" alt="Dentio Logo" class="h-10 lg:h-20 w-auto">
                     </a>
                     
                     <!-- Desktop Navigation -->
@@ -147,25 +147,102 @@
                         </div>
                     </div>
                     
-                    <!-- Hero Image -->
+                    <!-- Animated Smiling Tooth -->
                     <div class="flex justify-center lg:justify-end">
                         <div class="relative w-full max-w-md lg:max-w-lg">
-                            <div class="aspect-square rounded-3xl bg-gradient-to-br from-[#4988C4] to-[#6BA3D8] shadow-2xl shadow-[#4988C4]/20 flex items-center justify-center overflow-hidden">
-                                <!-- Decorative Elements -->
-                                <div class="absolute inset-0">
-                                    <div class="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-                                    <div class="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
-                                </div>
+                            <style>
+                                @keyframes toothBounce {
+                                    0%, 100% { transform: translateY(0px) rotate(0deg); }
+                                    25% { transform: translateY(-20px) rotate(-3deg); }
+                                    50% { transform: translateY(-30px) rotate(0deg); }
+                                    75% { transform: translateY(-20px) rotate(3deg); }
+                                }
+                                @keyframes sparkleShine {
+                                    0%, 100% { opacity: 0; transform: scale(0.5); }
+                                    50% { opacity: 1; transform: scale(1.2); }
+                                }
+                                @keyframes eyesBlink {
+                                    0%, 90%, 100% { transform: scaleY(1); }
+                                    95% { transform: scaleY(0.1); }
+                                }
+                                .tooth-animated { animation: toothBounce 3s ease-in-out infinite; }
+                                .sparkle-animated { animation: sparkleShine 2s ease-in-out infinite; }
+                                .eyes-animated { animation: eyesBlink 4s ease-in-out infinite; }
+                            </style>
+                            
+                            <svg class="w-full h-auto" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g class="tooth-animated">
+                                    <!-- Tooth Body - Logo style tooth shape with wavy top and roots -->
+                                    <path d="M 145 120 
+                                             Q 155 105 170 100
+                                             Q 185 105 200 110
+                                             Q 215 105 230 100
+                                             Q 245 105 255 120
+                                             L 260 180
+                                             Q 258 220 250 250
+                                             Q 245 270 235 285
+                                             Q 225 295 215 297
+                                             L 215 297
+                                             Q 210 300 205 297
+                                             L 205 297
+                                             Q 202 295 200 285
+                                             Q 198 295 195 297
+                                             L 195 297
+                                             Q 190 300 185 297
+                                             L 185 297
+                                             Q 175 295 165 285
+                                             Q 155 270 150 250
+                                             Q 142 220 140 180
+                                             Z" 
+                                          fill="white" stroke="url(#gradient1)" stroke-width="4"/>
+                                    
+                                    <!-- Wavy Crown Top -->
+                                    <path d="M 155 115 Q 170 105 185 115 Q 200 108 215 115 Q 230 105 245 115" 
+                                          stroke="url(#gradient1)" stroke-width="3" fill="none" stroke-linecap="round"/>
+                                    
+                                    <!-- Tooth Highlight -->
+                                    <ellipse cx="175" cy="140" rx="25" ry="35" fill="white" opacity="0.3"/>
+                                    <path d="M 170 108 Q 180 112 190 108" stroke="white" stroke-width="2" opacity="0.4" stroke-linecap="round"/>
+                                    
+                                    <!-- Eyes -->
+                                    <g class="eyes-animated">
+                                        <ellipse cx="170" cy="170" rx="12" ry="15" fill="url(#gradient1)"/>
+                                        <ellipse cx="230" cy="170" rx="12" ry="15" fill="url(#gradient1)"/>
+                                    </g>
+                                    
+                                    <!-- Big Smile -->
+                                    <path d="M 160 210 Q 200 240 240 210" stroke="url(#gradient1)" stroke-width="6" fill="none" stroke-linecap="round"/>
+                                    
+                                    <!-- Rosy Cheeks -->
+                                    <ellipse cx="150" cy="195" rx="18" ry="12" fill="#FF69B4" opacity="0.3"/>
+                                    <ellipse cx="250" cy="195" rx="18" ry="12" fill="#FF69B4" opacity="0.3"/>
+                                </g>
                                 
-                                <!-- Smile Icon -->
-                                <svg class="w-48 h-48 lg:w-64 lg:h-64 relative z-10" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="100" cy="100" r="80" stroke="white" stroke-width="4" stroke-linecap="round"/>
-                                    <path d="M60 90C60 90 75 105 100 105C125 105 140 90 140 90" stroke="white" stroke-width="5" stroke-linecap="round"/>
-                                    <circle cx="70" cy="70" r="5" fill="white"/>
-                                    <circle cx="130" cy="70" r="5" fill="white"/>
-                                    <path d="M70 115C70 115 80 130 100 130C120 130 130 115 130 115" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
-                                </svg>
-                            </div>
+                                <!-- Sparkles around tooth -->
+                                <g class="sparkle-animated">
+                                    <path d="M 120 150 L 125 155 L 130 150 L 125 145 Z" fill="url(#gradient1)"/>
+                                    <path d="M 125 142 L 125 158" stroke="url(#gradient1)" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M 117 150 L 133 150" stroke="url(#gradient1)" stroke-width="2" stroke-linecap="round"/>
+                                </g>
+                                <g class="sparkle-animated" style="animation-delay: 0.7s;">
+                                    <path d="M 280 200 L 285 205 L 290 200 L 285 195 Z" fill="url(#gradient1)"/>
+                                    <path d="M 285 192 L 285 208" stroke="url(#gradient1)" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M 277 200 L 293 200" stroke="url(#gradient1)" stroke-width="2" stroke-linecap="round"/>
+                                </g>
+                                <g class="sparkle-animated" style="animation-delay: 1.4s;">
+                                    <path d="M 200 80 L 205 85 L 210 80 L 205 75 Z" fill="url(#gradient1)"/>
+                                    <path d="M 205 72 L 205 88" stroke="url(#gradient1)" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M 197 80 L 213 80" stroke="url(#gradient1)" stroke-width="2" stroke-linecap="round"/>
+                                </g>
+                                
+                                <!-- Gradient Definition -->
+                                <defs>
+                                    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#4988C4;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#6BA3D8;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
                         </div>
                     </div>
                 </div>
