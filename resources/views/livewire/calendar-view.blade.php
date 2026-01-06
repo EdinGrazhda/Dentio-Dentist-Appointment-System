@@ -150,23 +150,16 @@
         <div class="relative">
             <!-- Modal Header with gradient background -->
             <div class="relative -mx-6 -mt-6 px-6 py-6 bg-gradient-to-r from-[#4988C4] to-[#6BA3D8] rounded-t-xl">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                            </svg>
-                        </div>
-                        <div>
-                            <h2 class="text-xl font-bold text-white">Edit Appointment</h2>
-                            <p class="text-sm text-white/80">Update appointment details</p>
-                        </div>
-                    </div>
-                    <button type="button" x-on:click="$flux.modal('edit-appointment').close()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center">
                         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                         </svg>
-                    </button>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-white">Edit Appointment</h2>
+                        <p class="text-sm text-white/80">Update appointment details</p>
+                    </div>
                 </div>
             </div>
 
