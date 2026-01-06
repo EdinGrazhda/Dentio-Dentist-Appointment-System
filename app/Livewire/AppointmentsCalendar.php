@@ -2,7 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Enums\AppointmentStatus;
 use App\Models\Appointment;
+use App\Models\Dentist;
+use App\Models\Services;
 use Asantibanez\LivewireCalendar\LivewireCalendar;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
@@ -30,7 +33,7 @@ class AppointmentsCalendar extends LivewireCalendar
 
     public function onEventClick($eventId)
     {
-        $this->redirect(route('appointments.edit', $eventId));
+        $this->dispatch('open-edit-modal', appointmentId: $eventId)->to(CalendarView::class);
     }
 
     public function onDayClick($year, $month, $day)

@@ -13,13 +13,35 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=space-grotesk:400,500,600,700|inter:400,500,600&display=swap" rel="stylesheet" />
+        <style>
+            [x-cloak] { display: none !important; }
+        </style>
         
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     </head>
         <body class="antialiased bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 transition-colors duration-300" 
-            x-data="{ mobileMenuOpen: false }"
+            x-data="{
+                mobileMenuOpen: false,
+                darkMode: false,
+                initializeDarkMode() {
+                    const storedMode = localStorage.getItem('darkMode');
+                    this.darkMode = storedMode === null
+                        ? window.matchMedia('(prefers-color-scheme: dark)').matches
+                        : storedMode === 'true';
+                    this.applyDarkMode();
+                },
+                applyDarkMode() {
+                    document.documentElement.classList.toggle('dark', this.darkMode);
+                },
+                toggleDarkMode() {
+                    this.darkMode = !this.darkMode;
+                    localStorage.setItem('darkMode', this.darkMode);
+                    this.applyDarkMode();
+                }
+            }"
+            x-init="initializeDarkMode()"
             style="font-family: 'Inter', sans-serif;">
         
         <!-- Navigation -->
@@ -46,7 +68,7 @@
 
                     <div class="flex items-center gap-2 lg:gap-3">
                         <!-- Dark Mode Toggle -->
-                        <button @click="darkMode = !darkMode; localStorage.setItem('darkMode', darkMode)" 
+                        <button @click="toggleDarkMode()" 
                                 class="inline-flex items-center justify-center rounded-lg w-9 h-9 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors duration-200">
                             <svg x-show="!darkMode" class="w-5 h-5 text-zinc-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
@@ -59,11 +81,11 @@
                         <!-- CTA Button -->
                         @if (Route::has('login'))
                             @auth
-                                <a href="{{ url('/dashboard') }}" class="inline-flex items-center justify-center rounded-lg px-4 lg:px-6 h-9 lg:h-10 bg-gradient-to-r from-[#4988C4] to-[#6BA3D8] text-white text-sm font-semibold shadow-md shadow-[#4988C4]/20 hover:shadow-lg hover:shadow-[#4988C4]/30 transition-all duration-200">
+                                <a href="{{ url('/dashboard') }}" class="inline-flex items-center justify-center rounded-lg px-4 lg:px-6 h-9 lg:h-10 bg-gradient-to-r from-[#4988C4] to-[#6BA3D8] text-white text-sm font-semibold shadow-md shadow-[#4988C4]/20 hover:shadow-lg hover:shadow-[#4988C4]/30 transition-all duration-200" wire:navigate>
                                     Dashboard
                                 </a>
                             @else
-                                <a href="{{ route('login') }}" class="inline-flex items-center justify-center rounded-lg px-4 lg:px-6 h-9 lg:h-10 bg-gradient-to-r from-[#4988C4] to-[#6BA3D8] text-white text-sm font-semibold shadow-md shadow-[#4988C4]/20 hover:shadow-lg hover:shadow-[#4988C4]/30 transition-all duration-200">
+                                <a href="{{ route('login') }}" class="inline-flex items-center justify-center rounded-lg px-4 lg:px-6 h-9 lg:h-10 bg-gradient-to-r from-[#4988C4] to-[#6BA3D8] text-white text-sm font-semibold shadow-md shadow-[#4988C4]/20 hover:shadow-lg hover:shadow-[#4988C4]/30 transition-all duration-200" wire:navigate>
                                     Get Started
                                 </a>
                             @endauth

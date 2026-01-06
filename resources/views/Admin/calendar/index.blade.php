@@ -68,6 +68,96 @@
         </div>
     </div>
 
+    <!-- Edit Appointment Modal -->
+    <flux:modal name="edit-appointment" class="max-w-3xl">
+        <div>
+            <flux:heading size="lg">Edit Appointment</flux:heading>
+            <flux:subheading>Update the appointment information below</flux:subheading>
+        </div>
+
+        @if($selectedAppointment)
+            <form wire:submit="updateAppointment" class="space-y-6 mt-6">
+                <!-- Patient Name Field -->
+                <flux:input
+                    wire:model="form.patient_name"
+                    label="Patient Name"
+                    type="text"
+                    required
+                    placeholder="Enter patient name"
+                />
+
+                <!-- Dentist Field -->
+                <flux:select
+                    wire:model="form.dentist_id"
+                    label="Dentist"
+                    placeholder="Select a dentist"
+                    required
+                >
+                    @foreach($dentists as $dentist)
+                        <flux:option value="{{ $dentist->id }}">{{ $dentist->name }}</flux:option>
+                    @endforeach
+                </flux:select>
+
+                <!-- Service Field -->
+                <flux:select
+                    wire:model="form.service_id"
+                    label="Service"
+                    placeholder="Select a service"
+                    required
+                >
+                    @foreach($services as $service)
+                        <flux:option value="{{ $service->id }}">
+                            {{ $service->service_name }} - ${{ number_format($service->price, 2) }}
+                            @if($service->duration)
+                                @php
+                                    $hours = floor($service->duration / 60);
+                                    $minutes = $service->duration % 60;
+                                    $durationText = $hours > 0 ? $hours . 'h' . ($minutes > 0 ? ' ' . $minutes . 'm' : '') : $service->duration . 'm';
+                                @endphp
+                                ({{ $durationText }})
+                            @endif
+                        </flux:option>
+                    @endforeach
+                </flux:select>
+
+                <!-- Date & Time Field -->
+                <flux:input
+                    wire:model="form.appointment_date"
+                    label="Date & Time"
+                    type="datetime-local"
+                    required
+                />
+
+                <!-- Status Field -->
+                <flux:select
+                    wire:model="form.status"
+                    label="Status"
+                    required
+                >
+                    @foreach($statuses as $value => $label)
+                        <flux:option value="{{ $value }}">{{ $label }}</flux:option>
+                    @endforeach
+                </flux:select>
+
+                <flux:separator />
+
+                <div class="flex items-center justify-between gap-3">
+                    <flux:button type="button" wire:click="deleteAppointment" variant="danger" icon="trash">
+                        Delete
+                    </flux:button>
+                    <div class="flex gap-3">
+                        <flux:button type="button" x-on:click="$flux.modal('edit-appointment').close()" variant="ghost">
+                            Cancel
+                        </flux:button>
+                        <flux:button type="submit" variant="primary" icon="check" style="background: linear-gradient(to right, #4988C4, #6BA3D8); color: white !important;">
+                            Update Appointment
+                        </flux:button>
+                    </div>
+                </div>
+            </form>
+        @endif
+    </flux:modal>
+
     <style>
         /* Calendar Styling */
         .bg-blue-500 {
