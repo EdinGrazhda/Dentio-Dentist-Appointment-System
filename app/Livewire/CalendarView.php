@@ -6,11 +6,19 @@ use App\Enums\AppointmentStatus;
 use App\Models\Appointment;
 use App\Models\Dentist;
 use App\Models\Services;
+use App\Services\AppointmentAvailabilityService;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class CalendarView extends Component
 {
+    protected AppointmentAvailabilityService $availabilityService;
+
+    public function boot(AppointmentAvailabilityService $availabilityService): void
+    {
+        $this->availabilityService = $availabilityService;
+    }
+
     public ?Appointment $selectedAppointment = null;
     
     public $form = [
@@ -46,6 +54,14 @@ class CalendarView extends Component
             'form.appointment_date' => 'required|date',
             'form.status' => 'required|in:' . implode(',', array_column(AppointmentStatus::cases(), 'value')),
         ]);
+
+        $this->availabilityService->ensureSlotIsAvailable(
+            $this->form['dentist_id'],
+            $this->form['service_id'],
+            $this->form['appointment_date'],
+            $this->selectedAppointment->id,
+            'form.appointment_date'
+        );
 
         $this->selectedAppointment->update([
             'patient_name' => $this->form['patient_name'],

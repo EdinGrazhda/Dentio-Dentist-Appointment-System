@@ -6,10 +6,15 @@ use App\Models\Appointment;
 use App\Models\Dentist;
 use App\Models\Services;
 use App\Enums\AppointmentStatus;
+use App\Services\AppointmentAvailabilityService;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
+    public function __construct(private AppointmentAvailabilityService $availabilityService)
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -46,6 +51,12 @@ class AppointmentController extends Controller
             'appointment_date' => 'required|date|after:now',
             'status' => 'required|in:pending,confirmed,canceled',
         ]);
+
+        $this->availabilityService->ensureSlotIsAvailable(
+            $validated['dentist_id'],
+            $validated['service_id'],
+            $validated['appointment_date'],
+        );
 
         Appointment::create($validated);
 
@@ -85,6 +96,13 @@ class AppointmentController extends Controller
             'appointment_date' => 'required|date',
             'status' => 'required|in:pending,confirmed,canceled',
         ]);
+
+        $this->availabilityService->ensureSlotIsAvailable(
+            $validated['dentist_id'],
+            $validated['service_id'],
+            $validated['appointment_date'],
+            $appointment->id,
+        );
 
         $appointment->update($validated);
 

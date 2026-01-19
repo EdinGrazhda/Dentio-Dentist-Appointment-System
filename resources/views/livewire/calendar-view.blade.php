@@ -165,6 +165,25 @@
 
             @if($selectedAppointment)
                 <form wire:submit.prevent="updateAppointment" class="space-y-5 mt-6">
+                    <!-- Validation Errors -->
+                    @if ($errors->any())
+                        <div class="rounded-xl bg-red-50 dark:bg-red-900/20 p-4 border-2 border-red-200 dark:border-red-800">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <div class="flex-1">
+                                    <h3 class="text-sm font-semibold text-red-800 dark:text-red-200 mb-1">Validation Error</h3>
+                                    <ul class="list-disc list-inside space-y-1">
+                                        @foreach ($errors->all() as $error)
+                                            <li class="text-sm text-red-700 dark:text-red-300">{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
                     <!-- Patient Name Field with Icon -->
                     <div class="relative">
                         <label class="block text-sm font-semibold text-zinc-900 dark:text-zinc-50 mb-2">
@@ -180,8 +199,11 @@
                             wire:model="form.patient_name"
                             required
                             placeholder="Enter patient name"
-                            class="w-full px-4 py-3 pl-4 rounded-xl border-2 border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 focus:ring-2 focus:ring-[#4988C4]/30 focus:border-[#4988C4] transition-all duration-200"
+                            class="w-full px-4 py-3 pl-4 rounded-xl border-2 @error('form.patient_name') border-red-500 @else border-zinc-200 dark:border-zinc-700 @enderror bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 focus:ring-2 focus:ring-[#4988C4]/30 focus:border-[#4988C4] transition-all duration-200"
                         />
+                        @error('form.patient_name')
+                            <p class="mt-1.5 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
@@ -198,13 +220,16 @@
                             <select 
                                 wire:model="form.dentist_id"
                                 required
-                                class="w-full px-4 py-3 rounded-xl border-2 border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 focus:ring-2 focus:ring-[#4988C4]/30 focus:border-[#4988C4] transition-all duration-200 cursor-pointer"
+                                class="w-full px-4 py-3 rounded-xl border-2 @error('form.dentist_id') border-red-500 @else border-zinc-200 dark:border-zinc-700 @enderror bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 focus:ring-2 focus:ring-[#4988C4]/30 focus:border-[#4988C4] transition-all duration-200 cursor-pointer"
                             >
                                 <option value="">Select dentist</option>
                                 @foreach($dentists as $dentist)
                                     <option value="{{ $dentist->id }}">{{ $dentist->name }}</option>
                                 @endforeach
                             </select>
+                            @error('form.dentist_id')
+                                <p class="mt-1.5 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <!-- Service Field -->
@@ -220,7 +245,7 @@
                             <select 
                                 wire:model="form.service_id"
                                 required
-                                class="w-full px-4 py-3 rounded-xl border-2 border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 focus:ring-2 focus:ring-[#4988C4]/30 focus:border-[#4988C4] transition-all duration-200 cursor-pointer"
+                                class="w-full px-4 py-3 rounded-xl border-2 @error('form.service_id') border-red-500 @else border-zinc-200 dark:border-zinc-700 @enderror bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 focus:ring-2 focus:ring-[#4988C4]/30 focus:border-[#4988C4] transition-all duration-200 cursor-pointer"
                             >
                                 <option value="">Select service</option>
                                 @foreach($services as $service)
@@ -237,6 +262,9 @@
                                     </option>
                                 @endforeach
                             </select>
+                            @error('form.service_id')
+                                <p class="mt-1.5 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
@@ -255,8 +283,11 @@
                                 type="datetime-local"
                                 wire:model="form.appointment_date"
                                 required
-                                class="w-full px-4 py-3 rounded-xl border-2 border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 focus:ring-2 focus:ring-[#4988C4]/30 focus:border-[#4988C4] transition-all duration-200"
+                                class="w-full px-4 py-3 rounded-xl border-2 @error('form.appointment_date') border-red-500 @else border-zinc-200 dark:border-zinc-700 @enderror bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 focus:ring-2 focus:ring-[#4988C4]/30 focus:border-[#4988C4] transition-all duration-200"
                             />
+                            @error('form.appointment_date')
+                                <p class="mt-1.5 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <!-- Status Field -->
@@ -272,12 +303,15 @@
                             <select 
                                 wire:model="form.status"
                                 required
-                                class="w-full px-4 py-3 rounded-xl border-2 border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 focus:ring-2 focus:ring-[#4988C4]/30 focus:border-[#4988C4] transition-all duration-200 cursor-pointer"
+                                class="w-full px-4 py-3 rounded-xl border-2 @error('form.status') border-red-500 @else border-zinc-200 dark:border-zinc-700 @enderror bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 focus:ring-2 focus:ring-[#4988C4]/30 focus:border-[#4988C4] transition-all duration-200 cursor-pointer"
                             >
                                 @foreach($statuses as $value => $label)
                                     <option value="{{ $value }}">{{ $label }}</option>
                                 @endforeach
                             </select>
+                            @error('form.status')
+                                <p class="mt-1.5 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 

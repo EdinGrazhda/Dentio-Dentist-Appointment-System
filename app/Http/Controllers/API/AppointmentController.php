@@ -4,11 +4,17 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
+use App\Services\AppointmentAvailabilityService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class AppointmentController extends Controller
 {
+    public function __construct(private AppointmentAvailabilityService $availabilityService)
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -46,7 +52,19 @@ class AppointmentController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $appointment = Appointment::create($validator->validated());
+        $data = $validator->validated();
+
+        try {
+            $this->availabilityService->ensureSlotIsAvailable(
+                $data['dentist_id'],
+                $data['service_id'],
+                $data['appointment_date'],
+            );
+        } catch (ValidationException $exception) {
+            return response()->json(['errors' => $exception->errors()], 422);
+        }
+
+        $appointment = Appointment::create($data);
 
         return response()->json($appointment, 201);
     }
@@ -85,7 +103,31 @@ class AppointmentController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $appointment->update($validator->validated());
+        try {
+            $this->availabilityService->ensureSlotIsAvailable(
+                $validator->validated()['dentist_id'],
+                $validator->validated()['service_id'],
+                $validator->validated()['appointment_date'],
+                $appointment->id,
+            );
+        } catch (ValidationException $exception) {
+            return response()->json(['errors' => $exception->errors()], 422);
+        }
+
+        $data = $validator->validated();
+
+        try {
+            $this->availabilityService->ensureSlotIsAvailable(
+                $data['dentist_id'],
+                $data['service_id'],
+                $data['appointment_date'],
+                $appointment->id,
+            );
+        } catch (ValidationException $exception) {
+            return response()->json(['errors' => $exception->errors()], 422);
+        }
+
+        $appointment->update($data);
 
         return response()->json($appointment);
     }
