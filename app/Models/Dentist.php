@@ -14,6 +14,14 @@ class Dentist extends Model
         'years_of_experience',
         'specialization',
         'image_path',
+        'work_start_time',
+        'work_end_time',
+        'slot_duration',
+    ];
+
+    protected $casts = [
+        'work_start_time' => 'datetime:H:i',
+        'work_end_time' => 'datetime:H:i',
     ];
 
     public function appointments()

@@ -1,72 +1,65 @@
 <x-layouts.app :title="__('Calendar')">
-    <div class="py-6 sm:py-8 lg:py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Header -->
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                <div>
-                    <flux:heading size="xl">Appointments Calendar</flux:heading>
-                    <flux:subheading>View and manage your appointments schedule</flux:subheading>
-                </div>
-                <flux:button :href="route('appointments.create')" icon="plus" wire:navigate style="background: linear-gradient(to right, #4988C4, #6BA3D8); color: white !important;">
-                    Add Appointment
-                </flux:button>
-            </div>
+    @livewire('day-calendar')
+</x-layouts.app>
+                <!-- Service Field -->
+                <flux:select
+                    wire:model="form.service_id"
+                    label="Service"
+                    placeholder="Select a service"
+                    required
+                >
+                    @foreach($services as $service)
+                        <flux:option value="{{ $service->id }}">
+                            {{ $service->service_name }} - ${{ number_format($service->price, 2) }}
+                            @if($service->duration)
+                                @php
+                                    $hours = floor($service->duration / 60);
+                                    $minutes = $service->duration % 60;
+                                    $durationText = $hours > 0 ? $hours . 'h' . ($minutes > 0 ? ' ' . $minutes . 'm' : '') : $service->duration . 'm';
+                                @endphp
+                                ({{ $durationText }})
+                            @endif
+                        </flux:option>
+                    @endforeach
+                </flux:select>
 
-            <!-- Calendar -->
-            <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden">
-                <!-- Calendar Navigation Header -->
-                <div class="p-6 border-b border-zinc-200 dark:border-zinc-700">
-                    <div class="flex items-center justify-between">
-                        <!-- Previous Month Button -->
-                        <flux:button 
-                            wire:click="goToPreviousMonth" 
-                            icon="chevron-left" 
-                            variant="ghost" 
-                            size="sm"
-                            style="color: #4988C4 !important;">
-                            Previous
+                <!-- Date & Time Field -->
+                <flux:input
+                    wire:model="form.appointment_date"
+                    label="Date & Time"
+                    type="datetime-local"
+                    required
+                />
+
+                <!-- Status Field -->
+                <flux:select
+                    wire:model="form.status"
+                    label="Status"
+                    required
+                >
+                    @foreach($statuses as $value => $label)
+                        <flux:option value="{{ $value }}">{{ $label }}</flux:option>
+                    @endforeach
+                </flux:select>
+
+                <flux:separator />
+
+                <div class="flex items-center justify-between gap-3">
+                    <flux:button type="button" wire:click="deleteAppointment" variant="danger" icon="trash">
+                        Delete
+                    </flux:button>
+                    <div class="flex gap-3">
+                        <flux:button type="button" x-on:click="$flux.modal('edit-appointment').close()" variant="ghost">
+                            Cancel
                         </flux:button>
-
-                        <!-- Current Month/Year Display -->
-                        <div class="flex items-center gap-3">
-                            <h3 class="text-xl font-bold text-zinc-900 dark:text-zinc-50">
-                                {{ now()->setDate($startsAt->year, $startsAt->month, 1)->format('F Y') }}
-                            </h3>
-                            
-                            <!-- Today Button -->
-                            <flux:button 
-                                wire:click="goToCurrentMonth" 
-                                variant="outline" 
-                                size="sm"
-                                style="border-color: #4988C4 !important; color: #4988C4 !important;">
-                                Today
-                            </flux:button>
-                        </div>
-
-                        <!-- Next Month Button -->
-                        <flux:button 
-                            wire:click="goToNextMonth" 
-                            icon="chevron-right" 
-                            icon-trailing 
-                            variant="ghost" 
-                            size="sm"
-                            style="color: #4988C4 !important;">
-                            Next
+                        <flux:button type="submit" variant="primary" icon="check" style="background: linear-gradient(to right, #4988C4, #6BA3D8); color: white !important;">
+                            Update Appointment
                         </flux:button>
                     </div>
                 </div>
-
-                <!-- Calendar Grid -->
-                <div class="p-6">
-                    <livewire:appointments-calendar
-                        week-starts-at="1"
-                        :day-of-week-format="['S', 'M', 'T', 'W', 'T', 'F', 'S']"
-                        :drag-and-drop-enabled="false"
-                    />
-                </div>
-            </div>
-        </div>
-    </div>
+            </form>
+        @endif
+    </flux:modal>
 
     <style>
         /* Calendar Styling */

@@ -63,6 +63,7 @@
                         :value="old('duration', $service->duration)"
                         type="number"
                         min="1"
+                        required
                         placeholder="e.g., 30 for 30 minutes, 120 for 2 hours"
                     />
 

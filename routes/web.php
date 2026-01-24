@@ -9,8 +9,14 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
 Route::get('/', function () {
-    return view('welcome');
+    $dentists = \App\Models\Dentist::all();
+    $services = \App\Models\Services::all();
+    return view('welcome', compact('dentists', 'services'));
 })->name('home');
+
+// Public appointment booking
+Route::post('/book-appointment', [App\Http\Controllers\PublicAppointmentController::class, 'store'])
+    ->name('public.appointments.store');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

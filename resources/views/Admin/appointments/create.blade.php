@@ -14,6 +14,25 @@
             <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden p-6 sm:p-8">
                 <form action="{{ route('appointments.store') }}" method="POST" class="space-y-6">
                     @csrf
+
+                    <!-- Validation Errors -->
+                    @if ($errors->any())
+                        <div class="rounded-xl bg-red-50 dark:bg-red-900/20 p-4 border-2 border-red-200 dark:border-red-800">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <div class="flex-1">
+                                    <h3 class="text-sm font-semibold text-red-800 dark:text-red-200 mb-1">Validation Error</h3>
+                                    <ul class="list-disc list-inside space-y-1">
+                                        @foreach ($errors->all() as $error)
+                                            <li class="text-sm text-red-700 dark:text-red-300">{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                     
                     <!-- Patient Name Field -->
                     <flux:input
@@ -92,6 +111,9 @@
                         type="datetime-local"
                         required
                     />
+                    @error('appointment_date')
+                        <p class="mt-1.5 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                    @enderror
 
                     <!-- Status Field -->
                     <div>

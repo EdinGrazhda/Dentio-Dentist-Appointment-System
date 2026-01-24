@@ -14,6 +14,8 @@ class Appointment extends Model
         'dentist_id',
         'service_id',
         'patient_name',
+        'email',
+        'phone',
         'appointment_date',
         'status',
     ];
